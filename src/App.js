@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from "react";
+import { useSelector } from 'react-redux';
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Login from "./components/Login";
+import TodoList from "./components/TodoList";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
+    return (
+        <Router>
+            <div>
+                <h1>Todo Application</h1>
+                <Routes>
+                    <Route path="/" element={<Login />} />
+                    <Route path="/todos" element={isAuthenticated ? <TodoList /> : <Login />} />
+                </Routes>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
